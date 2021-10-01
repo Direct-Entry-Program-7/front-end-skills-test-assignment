@@ -49,7 +49,7 @@ ECMAScript, TypeScript, DOM, ParcelJS, etc.
 
 Of course. You may add as much as code you want or reposition code fragments accordingly, but you are not allowed to remove any elements of the default HTML structrure of the index.html
 
-**Is it okay to change the default style.scss file as per my wish?**
+**Is it okay to change the default style.css file as per my wish?**
 
 Feel free ma boys and girls. This is all yours.
 
