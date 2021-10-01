@@ -1,19 +1,13 @@
 # Front End Skills Test Assignment
 
 This is a simple assignment to test your front end skills of technologies like HTML, CSS, SCSS,
-ECMAScript, TypeScript, DOM, Webpack, etc.
-
-### Prerequisites
-
-* [Sass](https://sass-lang.com/)
-* [NPM](https://nodejs.org/en/)
+ECMAScript, TypeScript, DOM, ParcelJS, etc.
 
 ### How do I take this assignment?
 
 * Clone the project first.
 `git clone https://github.com/Direct-Entry-Program/front-end-skills-test-assignment.git`
 * Run the `npm install` to install all required dependencies.
-* Set up a file watcher to watch changes in Sass files and compile them to CSS automatically or open the terminal in the project directory and execute `sass scss:css --watch` (make sure not to close the terminal window otherwise sass won't watch for any file changes)
 * That is it, you are good to go! 😉
 
 ### Guidelines for the assignment
