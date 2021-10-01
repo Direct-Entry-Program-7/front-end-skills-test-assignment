@@ -8,6 +8,7 @@ ECMAScript, TypeScript, DOM, ParcelJS, etc.
 * Clone the project first.
 `git clone https://github.com/Direct-Entry-Program/front-end-skills-test-assignment.git`
 * Run the `npm install` to install all required dependencies.
+* Edit the `package.json` file to add necessary build scripts
 * That is it, you are good to go! 😉
 
 ### Guidelines for the assignment
