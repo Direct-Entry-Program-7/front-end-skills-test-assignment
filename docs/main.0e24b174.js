@@ -11259,8 +11259,10 @@ var jquery_1 = __importDefault(require("jquery"));
   (0, jquery_1.default)(".trash").off('click');
   (0, jquery_1.default)(".trash").on('click', function (eventData) {
     if (confirm('Are you sure to delete?')) {
-      (0, jquery_1.default)(eventData.target).parents("tr").remove();
-      showOrHideTfoot();
+      (0, jquery_1.default)(eventData.target).parents("tr").fadeOut(500, function () {
+        (0, jquery_1.default)(this).remove();
+        showOrHideTfoot();
+      });
     }
   });
 });

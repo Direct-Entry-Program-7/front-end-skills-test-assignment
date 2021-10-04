@@ -46,8 +46,10 @@ $('#btn-save').on('click', ()=> {
     $(".trash").off('click');
     $(".trash").on('click', (eventData)=> {
        if (confirm('Are you sure to delete?')){
-           $(eventData.target).parents("tr").remove();
-           showOrHideTfoot();
+           $(eventData.target).parents("tr").fadeOut(500, function(){
+               $(this).remove();
+               showOrHideTfoot();
+           });
        }
     });
 
