@@ -2,6 +2,7 @@ import $ from 'jquery';
 
 $('#txt-id').trigger('focus');
 
+/* Add or update a row */
 $('#btn-save').on('click', (eventData) => {
 
     eventData.preventDefault();
@@ -62,32 +63,41 @@ $('#btn-save').on('click', (eventData) => {
     showOrHideTfoot();
     $("#btn-clear").trigger('click');
 
-    $("#tbl-customers tbody tr").off('click').on('click', function () {
-        const id = $(this).find("td:first-child").text();
-        const name = $(this).find("td:nth-child(2)").text();
-        const address = $(this).find("td:nth-child(3)").text();
-
-        txtId.val(id);
-        txtId.attr('disabled', "true");
-        txtName.val(name);
-        txtAddress.val(address);
-
-        $("#tbl-customers tbody tr").removeClass('selected');
-        $(this).addClass('selected');
-    });
-
-    $(".trash").off('click').on('click', (eventData) => {
-        if (confirm('Are you sure to delete?')) {
-            $(eventData.target).parents("tr").fadeOut(500, function () {
-                $(this).remove();
-                showOrHideTfoot();
-                $('#btn-clear').trigger('click');
-            });
-        }
-    });
-
 });
 
+/* Table row selection event listener */
+$("#tbl-customers tbody").on('click', 'tr',  function () {
+
+    const id = $(this).find("td:first-child").text();
+    const name = $(this).find("td:nth-child(2)").text();
+    const address = $(this).find("td:nth-child(3)").text();
+
+    $('#txt-id').val(id).attr('disabled', "true");
+    $('#txt-name').val(name);
+    $('#txt-address').val(address);
+
+    $("#tbl-customers tbody tr").removeClass('selected');
+    $(this).addClass('selected');
+});
+
+/* Table row deletion event listener */
+$("#tbl-customers tbody").on('click',  '.trash', (eventData) => {
+    if (confirm('Are you sure to delete?')) {
+        $(eventData.target).parents("tr").fadeOut(500, function () {
+            $(this).remove();
+            showOrHideTfoot();
+            $('#btn-clear').trigger('click');
+        });
+    }
+});
+
+/* Reset button event listener */
+$('#btn-clear').on('click', ()=>{
+   $("#tbl-customers tbody tr.selected").removeClass('selected');
+   $("#txt-id").removeAttr('disabled').trigger('focus');
+});
+
+/* Utility functions */
 function existCustomer(id: string): boolean{
     // let result: boolean = false;
     //
@@ -114,8 +124,3 @@ function showOrHideTfoot() {
     const tfoot = $('#tbl-customers tfoot');
     ($('#tbl-customers tbody tr').length > 0) ? tfoot.hide() : tfoot.show();
 }
-
-$('#btn-clear').on('click', ()=>{
-   $("#tbl-customers tbody tr.selected").removeClass('selected');
-   $("#txt-id").removeAttr('disabled').trigger('focus');
-});
