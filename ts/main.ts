@@ -17,33 +17,36 @@ $('#btn-save').on('click', (eventData) => {
 
     $('#txt-id, #txt-name, #txt-address').parent().removeClass('invalid');
 
-    // if (address.trim().length < 3){
-    //     $('#txt-address').parent().addClass('invalid');
-    //     $('#txt-address').trigger('select');
-    //     valid = false;
-    // }
-    //
-    // if (!/[A-Za-z .]{3,}/.test(name.trim())){
-    //     $('#txt-name').parent().addClass('invalid');
-    //     $('#txt-name').trigger('select');
-    //     valid = false;
-    // }
-    //
-    // if (!/^C\d{3}$/.test(id.trim())){
-    //     $('#txt-id').parent().addClass('invalid');
-    //     $('#txt-id').trigger('select');
-    //     valid = false;
-    // }
-    //
-    // if (!valid) return;
+    if (address.length < 3) {
+        txtAddress.parent().addClass('invalid').trigger('select');
+        valid = false;
+    }
+
+    if (!/[A-Za-z .]{3,}/.test(name)) {
+        txtName.parent().addClass('invalid').trigger('select');
+        valid = false;
+    }
+
+    if (!/^C\d{3}$/.test(id.trim())) {
+        txtId.parent().addClass('invalid').trigger('select');
+        valid = false;
+    }
+
+    if (!valid) return;
 
     /* Let's check whether we need to update or save */
-    if (txtId.attr('disabled')){
+    if (txtId.attr('disabled')) {
         const selectedRow = $("#tbl-customers tbody tr.selected");
 
         selectedRow.find("td:nth-child(2)").text(name);
         selectedRow.find("td:nth-child(3)").text(address);
         return; // It is an update, no need to continue
+    }
+
+    if(existCustomer(id)){
+        alert("Customer already exists");
+        txtId.trigger('select');
+        return;
     }
 
     const rowHtml = `
@@ -57,8 +60,9 @@ $('#btn-save').on('click', (eventData) => {
 
     $('#tbl-customers tbody').append(rowHtml);
     showOrHideTfoot();
+    $("#btn-clear").trigger('click');
 
-    $("#tbl-customers tbody tr").off('click').on('click', function() {
+    $("#tbl-customers tbody tr").off('click').on('click', function () {
         const id = $(this).find("td:first-child").text();
         const name = $(this).find("td:nth-child(2)").text();
         const address = $(this).find("td:nth-child(3)").text();
@@ -83,7 +87,32 @@ $('#btn-save').on('click', (eventData) => {
 
 });
 
+function existCustomer(id: string): boolean{
+    // let result: boolean = false;
+    //
+    // $("#tbl-customers tbody tr td:first-child").each((index, elm) => {
+    //     if ($(elm).text() === id){
+    //         result = true;
+    //     }
+    // });
+    // return result;
+
+    const ids = $("#tbl-customers tbody tr td:first-child");
+    for (let i = 0; i < ids.length; i++) {
+        if ($(ids[i]).text() === id){
+            return true;
+        }
+    }
+
+    return false;
+}
+
 function showOrHideTfoot() {
     const tfoot = $('#tbl-customers tfoot');
     ($('#tbl-customers tbody tr').length > 0) ? tfoot.hide() : tfoot.show();
 }
+
+$('#btn-clear').on('click', ()=>{
+   $("#tbl-customers tbody tr.selected").removeClass('selected');
+   $("#txt-id").removeAttr('disabled').trigger('focus');
+});
