@@ -36,9 +36,9 @@ ECMAScript, TypeScript, DOM, ParcelJS, etc.
     2. ✔ The last column of every record should contain the [trash icon](img/trash.png) which is used to remove the record.
         * The original trash icons are very large, so you need to resize them to 32x32 via CSS
     3. ✔ When hovering on a last column data, the trash icon should be changed from [trash icon](img/trash.png) to [trash hover icon](img/trash-hover.png).
-    4. When the user clicks on a trash icon, a message should be appeared asking to confirm the deletion. Only upon the confirmation, the record should be removed, otherwise nothing will happen.
+    4. ✔ When the user clicks on a trash icon, a message should be appeared asking to confirm the deletion. Only upon the confirmation, the record should be removed, otherwise nothing will happen.
     5. If the user selects a record, it should be visible to the user (either by changing the background color or border color of the row)
-    6. When hovering on records, the mouse cursor should be changed to the hand so user knows this can be selected. 
+    6. ✔ When hovering on records, the mouse cursor should be changed to the hand so user knows this can be selected. 
     7. Upon selection, the selected record's data should be appeared in the appropriate text fields.
         * Customer ID text field should be disabled in this case because the user not allowed to change the Customer ID even though he/she can change the Customer Name and Customer Address  
 * If the user clicks on the clear button all the text fields should be cleared (by default) and any selection that has been made previously on the table should be cleared as well. 

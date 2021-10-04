@@ -2,7 +2,7 @@ import $ from 'jquery';
 
 $('#txt-id').trigger('focus');
 
-$('#btn-save').on('click', ()=> {
+$('#btn-save').on('click', () => {
 
     const id = $('#txt-id').val() as string;
     const name = $('#txt-name').val() as string;
@@ -43,18 +43,23 @@ $('#btn-save').on('click', ()=> {
     $('#tbl-customers tbody').append(rowHtml);
     showOrHideTfoot();
 
-    $(".trash").off('click');
-    $(".trash").on('click', (eventData)=> {
-       if (confirm('Are you sure to delete?')){
-           $(eventData.target).parents("tr").fadeOut(500, function(){
-               $(this).remove();
-               showOrHideTfoot();
-           });
-       }
+    $("#tbl-customers tbody tr").off('click').on('click', function() {
+        $("#tbl-customers tbody tr").removeClass('selected');
+        $(this).addClass('selected');
+    });
+
+    $(".trash").off('click').on('click', (eventData) => {
+        if (confirm('Are you sure to delete?')) {
+            $(eventData.target).parents("tr").fadeOut(500, function () {
+                $(this).remove();
+                showOrHideTfoot();
+            });
+        }
     });
 
 });
 
-function showOrHideTfoot(){
-    ($('#tbl-customers tbody tr').length > 0)? $('#tbl-customers tfoot').hide(): $('#tbl-customers tfoot').show();
+function showOrHideTfoot() {
+    const tfoot = $('#tbl-customers tfoot');
+    ($('#tbl-customers tbody tr').length > 0) ? tfoot.hide() : tfoot.show();
 }
