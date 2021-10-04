@@ -1,8 +1,16 @@
 {
   "name": "font-end-skills-test-1",
   "version": "1.0.0",
+  "scripts": {
+    "watch": "tsc --watch",
+    "dev": "parcel serve index.html",
+    "build": "parcel build index.html"
+  },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.1",
     "bootstrap": "^4.5.3"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.12.5"
   }
 }
