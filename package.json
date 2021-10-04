@@ -4,7 +4,8 @@
   "scripts": {
     "watch": "tsc --watch",
     "dev": "parcel serve index.html",
-    "build": "parcel build index.html"
+    "clean": "rm -rf ./docs",
+    "build": "parcel build index.html --out-dir docs"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.1",
