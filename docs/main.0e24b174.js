@@ -11278,11 +11278,11 @@ var selectedPage = 1;
   showOrHideTfoot();
   showOrHidePagination();
 
-  if (((0, jquery_1.default)('#tbl-customers tbody tr').length - 1) % pages === 0) {
+  if (((0, jquery_1.default)('#tbl-customers tbody tr').length - 1) % pageSize === 0) {
     initPagination();
   }
 
-  navigateToPage(pages);
+  navigateToPage(pages === 0 ? 1 : pages);
   (0, jquery_1.default)("#btn-clear").trigger('click');
 });
 var tbody = (0, jquery_1.default)("#tbl-customers tbody");
@@ -11328,6 +11328,14 @@ tbody.on('click', '.trash', function (eventData) {
   (0, jquery_1.default)("#tbl-customers tbody tr.selected").removeClass('selected');
   (0, jquery_1.default)("#txt-id").removeAttr('disabled').trigger('focus');
 });
+/* Window resize event listener */
+
+(0, jquery_1.default)(window).on('resize', function () {
+  pageSize = calculatePageSize();
+  initPagination();
+  showOrHidePagination();
+  navigateToPage(1);
+});
 /* Utility functions */
 
 function existCustomer(id) {
@@ -11364,21 +11372,22 @@ function showOrHidePagination() {
 function calculatePageSize() {
   var tbl = (0, jquery_1.default)("#tbl-customers");
   var tFoot = (0, jquery_1.default)("#tbl-customers tfoot");
-  var rowHtml = "\n        <tr>\n            <td>C001</td>\n            <td>Manoj</td>\n            <td>Dehiwala</td>\n            <td><div class=\"trash\"></div></td>\n        </tr>\n    ";
+  var rowHtml = "\n        <tr class=\"dummy-data\">\n            <td>C001</td>\n            <td>Manoj</td>\n            <td>Dehiwala</td>\n            <td><div class=\"trash\"></div></td>\n        </tr>\n    ";
   var nav = (0, jquery_1.default)('nav');
   nav.removeClass('d-none');
   var top = (0, jquery_1.default)(window).height() - ((0, jquery_1.default)('footer').height() + nav.outerHeight(true));
   nav.addClass('d-none');
   tFoot.hide();
+  tbl.find('tbody tr').hide();
 
   while (true) {
     tbl.find('tbody').append(rowHtml);
     var bottom = tbl.outerHeight(true) + tbl.offset().top;
 
     if (bottom >= top) {
-      var pageSize_1 = tbl.find("tbody tr").length - 1;
-      tbl.find("tbody tr").remove();
-      tFoot.show();
+      var pageSize_1 = tbl.find("tbody tr.dummy-data").length - 1;
+      tbl.find("tbody tr.dummy-data").remove();
+      if (tbl.find("tbody tr").length === 0) tFoot.show();
       return pageSize_1;
     }
   }
@@ -11409,7 +11418,7 @@ function initPagination() {
 }
 
 function navigateToPage(page) {
-  if (page <= 0 && page > pages) return;
+  if (page <= 0 || page > pages) return;
   selectedPage = page;
   (0, jquery_1.default)(".pagination .page-item.active").removeClass('active');
   (0, jquery_1.default)(".pagination .page-item").each(function (index, elm) {

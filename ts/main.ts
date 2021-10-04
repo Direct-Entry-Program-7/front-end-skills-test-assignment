@@ -1,6 +1,6 @@
 import $ from 'jquery';
 
-const pageSize = calculatePageSize();
+let pageSize = calculatePageSize();
 let pages: number = 1;
 let selectedPage = 1;
 
@@ -67,11 +67,11 @@ $('#btn-save').on('click', (eventData) => {
     showOrHideTfoot();
     showOrHidePagination();
 
-    if ( ($('#tbl-customers tbody tr').length - 1) % pages === 0){
+    if ( ($('#tbl-customers tbody tr').length - 1) % pageSize === 0){
         initPagination();
     }
 
-    navigateToPage(pages);
+    navigateToPage(pages === 0 ? 1: pages);
     $("#btn-clear").trigger('click');
 
 });
@@ -123,6 +123,14 @@ $('#btn-clear').on('click', () => {
     $("#txt-id").removeAttr('disabled').trigger('focus');
 });
 
+/* Window resize event listener */
+$(window).on('resize', ()=> {
+    pageSize = calculatePageSize();
+    initPagination();
+    showOrHidePagination();
+    navigateToPage(1);
+});
+
 /* Utility functions */
 function existCustomer(id: string): boolean {
     // let result: boolean = false;
@@ -161,7 +169,7 @@ function calculatePageSize(): number {
     const tbl = $("#tbl-customers");
     const tFoot = $("#tbl-customers tfoot");
     const rowHtml = `
-        <tr>
+        <tr class="dummy-data">
             <td>C001</td>
             <td>Manoj</td>
             <td>Dehiwala</td>
@@ -176,15 +184,18 @@ function calculatePageSize(): number {
     nav.addClass('d-none');
     tFoot.hide();
 
+    tbl.find('tbody tr').hide();
+
     while (true) {
         tbl.find('tbody').append(rowHtml);
         const bottom = tbl.outerHeight(true)! + tbl.offset()!.top;
 
         if (bottom >= top) {
-            const pageSize = tbl.find("tbody tr").length - 1;
+            const pageSize = tbl.find("tbody tr.dummy-data").length - 1;
 
-            tbl.find("tbody tr").remove();
-            tFoot.show();
+            tbl.find("tbody tr.dummy-data").remove();
+
+            if (tbl.find("tbody tr").length === 0) tFoot.show();
             return pageSize;
         }
     }
@@ -234,7 +245,7 @@ function initPagination(): void {
 
 function navigateToPage(page: number): void{
 
-    if (page <= 0 && page > pages) return;
+    if (page <= 0 || page > pages) return;
 
     selectedPage = page;
 
