@@ -11306,6 +11306,18 @@ tbody.on('click', '.trash', function (eventData) {
       (0, jquery_1.default)(this).remove();
       showOrHideTfoot();
       showOrHidePagination();
+
+      if ((0, jquery_1.default)("#tbl-customers tbody tr").length % pageSize === 0) {
+        initPagination();
+
+        if (selectedPage >= pages) {
+          selectedPage = pages;
+          navigateToPage(selectedPage);
+        }
+      } else {
+        navigateToPage(selectedPage);
+      }
+
       (0, jquery_1.default)('#btn-clear').trigger('click');
     });
   }

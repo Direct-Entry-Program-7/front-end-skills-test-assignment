@@ -100,6 +100,18 @@ tbody.on('click', '.trash', (eventData) => {
             $(this).remove();
             showOrHideTfoot();
             showOrHidePagination();
+
+            if (($("#tbl-customers tbody tr").length % pageSize) === 0){
+                initPagination();
+
+                if (selectedPage >= pages){
+                    selectedPage = pages;
+                    navigateToPage(selectedPage);
+                }
+            }else{
+                navigateToPage(selectedPage);
+            }
+
             $('#btn-clear').trigger('click');
         });
     }
