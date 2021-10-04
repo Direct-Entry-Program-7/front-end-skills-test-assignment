@@ -146,5 +146,11 @@ footer {
     border-top: 1px solid lightgrey;
 }
 
+@media all and (max-width: 991px){
+    footer{
+        position: relative;
+    }
+}
+
 
 /*# sourceMappingURL=/style.78032849.css.map */
