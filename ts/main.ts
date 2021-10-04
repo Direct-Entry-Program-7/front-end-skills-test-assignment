@@ -2,6 +2,7 @@ import $ from 'jquery';
 
 const pageSize = calculatePageSize();
 let pages: number = 1;
+let selectedPage = 1;
 
 $('#txt-id').trigger('focus');
 
@@ -65,7 +66,11 @@ $('#btn-save').on('click', (eventData) => {
     $('#tbl-customers tbody').append(rowHtml);
     showOrHideTfoot();
     showOrHidePagination();
-    initPagination();
+
+    if ( ($('#tbl-customers tbody tr').length - 1) % pages === 0){
+        initPagination();
+    }
+
     navigateToPage(pages);
     $("#btn-clear").trigger('click');
 
@@ -200,15 +205,43 @@ function initPagination(): void {
 
     $(".pagination").html(paginationHtml);
 
+    $(".page-item:first-child").on('click', function(){
+        if ($(this).hasClass("disabled")) return;
+        navigateToPage(selectedPage - 1)
+    });
+
+    $(".page-item:last-child").on('click', function(){
+        if ($(this).hasClass("disabled")) return;
+        navigateToPage(selectedPage +1);
+    });
+
+    $(".page-item:not(.page-item:first-child, .page-item:last-child)").on('click', function(eventData){
+        navigateToPage(+$(this).text());
+    } );
 }
 
 function navigateToPage(page: number): void{
+
+    if (page <= 0 && page > pages) return;
+
+    selectedPage = page;
+
+    $(".pagination .page-item.active").removeClass('active');
+
     $(".pagination .page-item").each((index, elm) => {
        if (+$(elm).text() === page){
            $(elm).addClass("active");
            return false;
        }
     });
+
+    $(".pagination .page-item:last-child, .pagination .page-item:first-child").removeClass('disabled');
+
+    if (page === pages) {
+        $(".pagination .page-item:last-child").addClass('disabled');
+    }else if (page === 1){
+        $(".pagination .page-item:first-child").addClass('disabled');
+    }
 
     const rows = $("#tbl-customers tbody tr");
     const start = (page - 1) * pageSize;        // [0-6][7-13]

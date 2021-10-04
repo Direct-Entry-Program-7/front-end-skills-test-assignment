@@ -11229,6 +11229,7 @@ var jquery_1 = __importDefault(require("jquery"));
 
 var pageSize = calculatePageSize();
 var pages = 1;
+var selectedPage = 1;
 (0, jquery_1.default)('#txt-id').trigger('focus');
 /* Add or update a row */
 
@@ -11276,7 +11277,11 @@ var pages = 1;
   (0, jquery_1.default)('#tbl-customers tbody').append(rowHtml);
   showOrHideTfoot();
   showOrHidePagination();
-  initPagination();
+
+  if (((0, jquery_1.default)('#tbl-customers tbody tr').length - 1) % pages === 0) {
+    initPagination();
+  }
+
   navigateToPage(pages);
   (0, jquery_1.default)("#btn-clear").trigger('click');
 });
@@ -11378,15 +11383,37 @@ function initPagination() {
 
   paginationHtml += "\n                        <li class=\"page-item\">\n                            <a class=\"page-link\" href=\"#\">\n                                <i class=\"fas fa-forward\"></i>\n                            </a>\n                        </li>\n    ";
   (0, jquery_1.default)(".pagination").html(paginationHtml);
+  (0, jquery_1.default)(".page-item:first-child").on('click', function () {
+    if ((0, jquery_1.default)(this).hasClass("disabled")) return;
+    navigateToPage(selectedPage - 1);
+  });
+  (0, jquery_1.default)(".page-item:last-child").on('click', function () {
+    if ((0, jquery_1.default)(this).hasClass("disabled")) return;
+    navigateToPage(selectedPage + 1);
+  });
+  (0, jquery_1.default)(".page-item:not(.page-item:first-child, .page-item:last-child)").on('click', function (eventData) {
+    navigateToPage(+(0, jquery_1.default)(this).text());
+  });
 }
 
 function navigateToPage(page) {
+  if (page <= 0 && page > pages) return;
+  selectedPage = page;
+  (0, jquery_1.default)(".pagination .page-item.active").removeClass('active');
   (0, jquery_1.default)(".pagination .page-item").each(function (index, elm) {
     if (+(0, jquery_1.default)(elm).text() === page) {
       (0, jquery_1.default)(elm).addClass("active");
       return false;
     }
   });
+  (0, jquery_1.default)(".pagination .page-item:last-child, .pagination .page-item:first-child").removeClass('disabled');
+
+  if (page === pages) {
+    (0, jquery_1.default)(".pagination .page-item:last-child").addClass('disabled');
+  } else if (page === 1) {
+    (0, jquery_1.default)(".pagination .page-item:first-child").addClass('disabled');
+  }
+
   var rows = (0, jquery_1.default)("#tbl-customers tbody tr");
   var start = (page - 1) * pageSize; // [0-6][7-13]
 
