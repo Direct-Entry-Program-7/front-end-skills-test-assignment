@@ -11233,28 +11233,27 @@ var jquery_1 = __importDefault(require("jquery"));
   var name = (0, jquery_1.default)('#txt-name').val();
   var address = (0, jquery_1.default)('#txt-address').val();
   var valid = true;
-  (0, jquery_1.default)('#txt-id, #txt-name, #txt-address').parent().removeClass('invalid');
+  (0, jquery_1.default)('#txt-id, #txt-name, #txt-address').parent().removeClass('invalid'); // if (address.trim().length < 3){
+  //     $('#txt-address').parent().addClass('invalid');
+  //     $('#txt-address').trigger('select');
+  //     valid = false;
+  // }
+  //
+  // if (!/[A-Za-z .]{3,}/.test(name.trim())){
+  //     $('#txt-name').parent().addClass('invalid');
+  //     $('#txt-name').trigger('select');
+  //     valid = false;
+  // }
+  //
+  // if (!/^C\d{3}$/.test(id.trim())){
+  //     $('#txt-id').parent().addClass('invalid');
+  //     $('#txt-id').trigger('select');
+  //     valid = false;
+  // }
+  //
+  // if (!valid) return;
 
-  if (address.trim().length < 3) {
-    (0, jquery_1.default)('#txt-address').parent().addClass('invalid');
-    (0, jquery_1.default)('#txt-address').trigger('select');
-    valid = false;
-  }
-
-  if (!/[A-Za-z .]{3,}/.test(name.trim())) {
-    (0, jquery_1.default)('#txt-name').parent().addClass('invalid');
-    (0, jquery_1.default)('#txt-name').trigger('select');
-    valid = false;
-  }
-
-  if (!/^C\d{3}$/.test(id.trim())) {
-    (0, jquery_1.default)('#txt-id').parent().addClass('invalid');
-    (0, jquery_1.default)('#txt-id').trigger('select');
-    valid = false;
-  }
-
-  if (!valid) return;
-  var rowHtml = "\n        <tr>\n            <td>" + id + "</td>\n            <td>" + name + "</td>\n            <td>" + address + "</td>\n            <td></td>\n        </tr>\n    ";
+  var rowHtml = "\n        <tr>\n            <td>" + id + "</td>\n            <td>" + name + "</td>\n            <td>" + address + "</td>\n            <td><div class=\"trash\"></div></td>\n        </tr>\n    ";
   (0, jquery_1.default)('#tbl-customers tbody').append(rowHtml);
 });
 },{"jquery":"node_modules/jquery/dist/jquery.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {

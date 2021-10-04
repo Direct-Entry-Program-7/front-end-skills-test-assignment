@@ -11,32 +11,32 @@ $('#btn-save').on('click', ()=> {
 
     $('#txt-id, #txt-name, #txt-address').parent().removeClass('invalid');
 
-    if (address.trim().length < 3){
-        $('#txt-address').parent().addClass('invalid');
-        $('#txt-address').trigger('select');
-        valid = false;
-    }
-
-    if (!/[A-Za-z .]{3,}/.test(name.trim())){
-        $('#txt-name').parent().addClass('invalid');
-        $('#txt-name').trigger('select');
-        valid = false;
-    }
-
-    if (!/^C\d{3}$/.test(id.trim())){
-        $('#txt-id').parent().addClass('invalid');
-        $('#txt-id').trigger('select');
-        valid = false;
-    }
-
-    if (!valid) return;
+    // if (address.trim().length < 3){
+    //     $('#txt-address').parent().addClass('invalid');
+    //     $('#txt-address').trigger('select');
+    //     valid = false;
+    // }
+    //
+    // if (!/[A-Za-z .]{3,}/.test(name.trim())){
+    //     $('#txt-name').parent().addClass('invalid');
+    //     $('#txt-name').trigger('select');
+    //     valid = false;
+    // }
+    //
+    // if (!/^C\d{3}$/.test(id.trim())){
+    //     $('#txt-id').parent().addClass('invalid');
+    //     $('#txt-id').trigger('select');
+    //     valid = false;
+    // }
+    //
+    // if (!valid) return;
 
     const rowHtml = `
         <tr>
             <td>${id}</td>
             <td>${name}</td>
             <td>${address}</td>
-            <td></td>
+            <td><div class="trash"></div></td>
         </tr>
     `;
 
