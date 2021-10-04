@@ -2,7 +2,9 @@ import $ from 'jquery';
 
 $('#txt-id').trigger('focus');
 
-$('#btn-save').on('click', () => {
+$('#btn-save').on('click', (eventData) => {
+
+    eventData.preventDefault();
 
     const txtId = $('#txt-id');
     const txtName = $('#txt-name');

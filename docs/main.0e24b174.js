@@ -11228,7 +11228,8 @@ Object.defineProperty(exports, "__esModule", {
 var jquery_1 = __importDefault(require("jquery"));
 
 (0, jquery_1.default)('#txt-id').trigger('focus');
-(0, jquery_1.default)('#btn-save').on('click', function () {
+(0, jquery_1.default)('#btn-save').on('click', function (eventData) {
+  eventData.preventDefault();
   var txtId = (0, jquery_1.default)('#txt-id');
   var txtName = (0, jquery_1.default)('#txt-name');
   var txtAddress = (0, jquery_1.default)('#txt-address');
