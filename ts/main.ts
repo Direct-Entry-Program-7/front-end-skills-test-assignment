@@ -43,6 +43,14 @@ $('#btn-save').on('click', ()=> {
     $('#tbl-customers tbody').append(rowHtml);
     showOrHideTfoot();
 
+    $(".trash").off('click');
+    $(".trash").on('click', (eventData)=> {
+       if (confirm('Are you sure to delete?')){
+           $(eventData.target).parents("tr").remove();
+           showOrHideTfoot();
+       }
+    });
+
 });
 
 function showOrHideTfoot(){
