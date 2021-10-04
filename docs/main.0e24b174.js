@@ -11290,6 +11290,7 @@ var jquery_1 = __importDefault(require("jquery"));
       (0, jquery_1.default)(eventData.target).parents("tr").fadeOut(500, function () {
         (0, jquery_1.default)(this).remove();
         showOrHideTfoot();
+        (0, jquery_1.default)('#btn-clear').trigger('click');
       });
     }
   });
@@ -11301,6 +11302,7 @@ function existCustomer(id) {
   // $("#tbl-customers tbody tr td:first-child").each((index, elm) => {
   //     if ($(elm).text() === id){
   //         result = true;
+  //         return false;
   //     }
   // });
   // return result;

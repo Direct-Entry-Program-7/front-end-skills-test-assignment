@@ -81,6 +81,7 @@ $('#btn-save').on('click', (eventData) => {
             $(eventData.target).parents("tr").fadeOut(500, function () {
                 $(this).remove();
                 showOrHideTfoot();
+                $('#btn-clear').trigger('click');
             });
         }
     });
@@ -93,11 +94,13 @@ function existCustomer(id: string): boolean{
     // $("#tbl-customers tbody tr td:first-child").each((index, elm) => {
     //     if ($(elm).text() === id){
     //         result = true;
+    //         return false;
     //     }
     // });
     // return result;
 
     const ids = $("#tbl-customers tbody tr td:first-child");
+
     for (let i = 0; i < ids.length; i++) {
         if ($(ids[i]).text() === id){
             return true;
