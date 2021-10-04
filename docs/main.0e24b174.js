@@ -11233,9 +11233,9 @@ var jquery_1 = __importDefault(require("jquery"));
   var txtId = (0, jquery_1.default)('#txt-id');
   var txtName = (0, jquery_1.default)('#txt-name');
   var txtAddress = (0, jquery_1.default)('#txt-address');
-  var id = txtId.val();
-  var name = txtName.val();
-  var address = txtAddress.val();
+  var id = txtId.val().trim();
+  var name = txtName.val().trim();
+  var address = txtAddress.val().trim();
   var valid = true;
   (0, jquery_1.default)('#txt-id, #txt-name, #txt-address').parent().removeClass('invalid'); // if (address.trim().length < 3){
   //     $('#txt-address').parent().addClass('invalid');
@@ -11256,6 +11256,15 @@ var jquery_1 = __importDefault(require("jquery"));
   // }
   //
   // if (!valid) return;
+
+  /* Let's check whether we need to update or save */
+
+  if (txtId.attr('disabled')) {
+    var selectedRow = (0, jquery_1.default)("#tbl-customers tbody tr.selected");
+    selectedRow.find("td:nth-child(2)").text(name);
+    selectedRow.find("td:nth-child(3)").text(address);
+    return; // It is an update, no need to continue
+  }
 
   var rowHtml = "\n        <tr>\n            <td>" + id + "</td>\n            <td>" + name + "</td>\n            <td>" + address + "</td>\n            <td><div class=\"trash\"></div></td>\n        </tr>\n    ";
   (0, jquery_1.default)('#tbl-customers tbody').append(rowHtml);

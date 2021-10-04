@@ -10,9 +10,9 @@ $('#btn-save').on('click', (eventData) => {
     const txtName = $('#txt-name');
     const txtAddress = $('#txt-address');
 
-    const id = txtId.val() as string;
-    const name = txtName.val() as string;
-    const address = txtAddress.val() as string;
+    const id = (txtId.val() as string).trim();
+    const name = (txtName.val() as string).trim();
+    const address = (txtAddress.val() as string).trim();
     let valid = true;
 
     $('#txt-id, #txt-name, #txt-address').parent().removeClass('invalid');
@@ -36,6 +36,15 @@ $('#btn-save').on('click', (eventData) => {
     // }
     //
     // if (!valid) return;
+
+    /* Let's check whether we need to update or save */
+    if (txtId.attr('disabled')){
+        const selectedRow = $("#tbl-customers tbody tr.selected");
+
+        selectedRow.find("td:nth-child(2)").text(name);
+        selectedRow.find("td:nth-child(3)").text(address);
+        return; // It is an update, no need to continue
+    }
 
     const rowHtml = `
         <tr>
