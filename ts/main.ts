@@ -1,5 +1,8 @@
 import $ from 'jquery';
 
+const pageSize = calculatePageSize();
+console.log(pageSize);
+
 $('#txt-id').trigger('focus');
 
 /* Add or update a row */
@@ -18,22 +21,22 @@ $('#btn-save').on('click', (eventData) => {
 
     $('#txt-id, #txt-name, #txt-address').parent().removeClass('invalid');
 
-    if (address.length < 3) {
-        txtAddress.parent().addClass('invalid').trigger('select');
-        valid = false;
-    }
-
-    if (!/[A-Za-z .]{3,}/.test(name)) {
-        txtName.parent().addClass('invalid').trigger('select');
-        valid = false;
-    }
-
-    if (!/^C\d{3}$/.test(id.trim())) {
-        txtId.parent().addClass('invalid').trigger('select');
-        valid = false;
-    }
-
-    if (!valid) return;
+    // if (address.length < 3) {
+    //     txtAddress.parent().addClass('invalid').trigger('select');
+    //     valid = false;
+    // }
+    //
+    // if (!/[A-Za-z .]{3,}/.test(name)) {
+    //     txtName.parent().addClass('invalid').trigger('select');
+    //     valid = false;
+    // }
+    //
+    // if (!/^C\d{3}$/.test(id.trim())) {
+    //     txtId.parent().addClass('invalid').trigger('select');
+    //     valid = false;
+    // }
+    //
+    // if (!valid) return;
 
     /* Let's check whether we need to update or save */
     if (txtId.attr('disabled')) {
@@ -44,11 +47,11 @@ $('#btn-save').on('click', (eventData) => {
         return; // It is an update, no need to continue
     }
 
-    if(existCustomer(id)){
-        alert("Customer already exists");
-        txtId.trigger('select');
-        return;
-    }
+    // if(existCustomer(id)){
+    //     alert("Customer already exists");
+    //     txtId.trigger('select');
+    //     return;
+    // }
 
     const rowHtml = `
         <tr>
@@ -125,4 +128,35 @@ function existCustomer(id: string): boolean{
 function showOrHideTfoot() {
     const tfoot = $('#tbl-customers tfoot');
     ($('#tbl-customers tbody tr').length > 0) ? tfoot.hide() : tfoot.show();
+}
+
+function calculatePageSize(): number{
+    const tFoot = $("#tbl-customers tfoot");
+    tFoot.hide();
+
+    const rowHtml = `
+        <tr>
+            <td>C001</td>
+            <td>Manoj</td>
+            <td>Dehiwala</td>
+            <td><div class="trash"></div></td>
+        </tr>
+    `;
+
+    const tbl = $("#tbl-customers");
+
+    while (true) {
+        tbl.find('tbody').append(rowHtml);
+        const bottom = tbl.outerHeight(true)! + tbl.offset()!.top;
+        const top = $(window).height()! - ($('footer').height()! + 47);
+
+        if (bottom >= top){
+            const pageSize = tbl.find("tbody tr").length - 1;
+
+            tbl.find("tbody tr").remove();
+            tFoot.show();
+            return pageSize;
+        }
+    }
+
 }

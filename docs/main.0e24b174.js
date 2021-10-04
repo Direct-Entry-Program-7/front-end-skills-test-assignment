@@ -11227,6 +11227,8 @@ Object.defineProperty(exports, "__esModule", {
 
 var jquery_1 = __importDefault(require("jquery"));
 
+var pageSize = calculatePageSize();
+console.log(pageSize);
 (0, jquery_1.default)('#txt-id').trigger('focus');
 /* Add or update a row */
 
@@ -11239,24 +11241,23 @@ var jquery_1 = __importDefault(require("jquery"));
   var name = txtName.val().trim();
   var address = txtAddress.val().trim();
   var valid = true;
-  (0, jquery_1.default)('#txt-id, #txt-name, #txt-address').parent().removeClass('invalid');
+  (0, jquery_1.default)('#txt-id, #txt-name, #txt-address').parent().removeClass('invalid'); // if (address.length < 3) {
+  //     txtAddress.parent().addClass('invalid').trigger('select');
+  //     valid = false;
+  // }
+  //
+  // if (!/[A-Za-z .]{3,}/.test(name)) {
+  //     txtName.parent().addClass('invalid').trigger('select');
+  //     valid = false;
+  // }
+  //
+  // if (!/^C\d{3}$/.test(id.trim())) {
+  //     txtId.parent().addClass('invalid').trigger('select');
+  //     valid = false;
+  // }
+  //
+  // if (!valid) return;
 
-  if (address.length < 3) {
-    txtAddress.parent().addClass('invalid').trigger('select');
-    valid = false;
-  }
-
-  if (!/[A-Za-z .]{3,}/.test(name)) {
-    txtName.parent().addClass('invalid').trigger('select');
-    valid = false;
-  }
-
-  if (!/^C\d{3}$/.test(id.trim())) {
-    txtId.parent().addClass('invalid').trigger('select');
-    valid = false;
-  }
-
-  if (!valid) return;
   /* Let's check whether we need to update or save */
 
   if (txtId.attr('disabled')) {
@@ -11264,22 +11265,22 @@ var jquery_1 = __importDefault(require("jquery"));
     selectedRow.find("td:nth-child(2)").text(name);
     selectedRow.find("td:nth-child(3)").text(address);
     return; // It is an update, no need to continue
-  }
+  } // if(existCustomer(id)){
+  //     alert("Customer already exists");
+  //     txtId.trigger('select');
+  //     return;
+  // }
 
-  if (existCustomer(id)) {
-    alert("Customer already exists");
-    txtId.trigger('select');
-    return;
-  }
 
   var rowHtml = "\n        <tr>\n            <td>" + id + "</td>\n            <td>" + name + "</td>\n            <td>" + address + "</td>\n            <td><div class=\"trash\"></div></td>\n        </tr>\n    ";
   (0, jquery_1.default)('#tbl-customers tbody').append(rowHtml);
   showOrHideTfoot();
   (0, jquery_1.default)("#btn-clear").trigger('click');
 });
+var tbody = (0, jquery_1.default)("#tbl-customers tbody");
 /* Table row selection event listener */
 
-(0, jquery_1.default)("#tbl-customers tbody").on('click', 'tr', function () {
+tbody.on('click', 'tr', function () {
   var id = (0, jquery_1.default)(this).find("td:first-child").text();
   var name = (0, jquery_1.default)(this).find("td:nth-child(2)").text();
   var address = (0, jquery_1.default)(this).find("td:nth-child(3)").text();
@@ -11291,7 +11292,7 @@ var jquery_1 = __importDefault(require("jquery"));
 });
 /* Table row deletion event listener */
 
-(0, jquery_1.default)("#tbl-customers tbody").on('click', '.trash', function (eventData) {
+tbody.on('click', '.trash', function (eventData) {
   if (confirm('Are you sure to delete?')) {
     (0, jquery_1.default)(eventData.target).parents("tr").fadeOut(500, function () {
       (0, jquery_1.default)(this).remove();
@@ -11332,6 +11333,26 @@ function existCustomer(id) {
 function showOrHideTfoot() {
   var tfoot = (0, jquery_1.default)('#tbl-customers tfoot');
   (0, jquery_1.default)('#tbl-customers tbody tr').length > 0 ? tfoot.hide() : tfoot.show();
+}
+
+function calculatePageSize() {
+  var tFoot = (0, jquery_1.default)("#tbl-customers tfoot");
+  tFoot.hide();
+  var rowHtml = "\n        <tr>\n            <td>C001</td>\n            <td>Manoj</td>\n            <td>Dehiwala</td>\n            <td><div class=\"trash\"></div></td>\n        </tr>\n    ";
+  var tbl = (0, jquery_1.default)("#tbl-customers");
+
+  while (true) {
+    tbl.find('tbody').append(rowHtml);
+    var bottom = tbl.outerHeight(true) + tbl.offset().top;
+    var top = (0, jquery_1.default)(window).height() - ((0, jquery_1.default)('footer').height() + 47);
+
+    if (bottom >= top) {
+      var pageSize_1 = tbl.find("tbody tr").length - 1;
+      tbl.find("tbody tr").remove();
+      tFoot.show();
+      return pageSize_1;
+    }
+  }
 }
 },{"jquery":"node_modules/jquery/dist/jquery.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
