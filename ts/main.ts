@@ -65,8 +65,10 @@ $('#btn-save').on('click', (eventData) => {
 
 });
 
+const tbody = $("#tbl-customers tbody");
+
 /* Table row selection event listener */
-$("#tbl-customers tbody").on('click', 'tr',  function () {
+tbody.on('click', 'tr',  function () {
 
     const id = $(this).find("td:first-child").text();
     const name = $(this).find("td:nth-child(2)").text();
@@ -81,7 +83,7 @@ $("#tbl-customers tbody").on('click', 'tr',  function () {
 });
 
 /* Table row deletion event listener */
-$("#tbl-customers tbody").on('click',  '.trash', (eventData) => {
+tbody.on('click',  '.trash', (eventData) => {
     if (confirm('Are you sure to delete?')) {
         $(eventData.target).parents("tr").fadeOut(500, function () {
             $(this).remove();
