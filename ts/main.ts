@@ -166,6 +166,11 @@ function showOrHidePagination() {
 }
 
 function calculatePageSize(): number {
+
+    if ($(window).width()! < 992) {
+        return 7;
+    }
+
     const tbl = $("#tbl-customers");
     const tFoot = $("#tbl-customers tfoot");
     const rowHtml = `

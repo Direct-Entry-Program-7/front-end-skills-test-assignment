@@ -11370,6 +11370,10 @@ function showOrHidePagination() {
 }
 
 function calculatePageSize() {
+  if ((0, jquery_1.default)(window).width() < 992) {
+    return 7;
+  }
+
   var tbl = (0, jquery_1.default)("#tbl-customers");
   var tFoot = (0, jquery_1.default)("#tbl-customers tfoot");
   var rowHtml = "\n        <tr class=\"dummy-data\">\n            <td>C001</td>\n            <td>Manoj</td>\n            <td>Dehiwala</td>\n            <td><div class=\"trash\"></div></td>\n        </tr>\n    ";
