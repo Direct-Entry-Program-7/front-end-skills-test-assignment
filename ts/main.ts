@@ -1,7 +1,6 @@
 import $ from 'jquery';
 
 const pageSize = calculatePageSize();
-console.log(pageSize);
 
 $('#txt-id').trigger('focus');
 
@@ -64,6 +63,7 @@ $('#btn-save').on('click', (eventData) => {
 
     $('#tbl-customers tbody').append(rowHtml);
     showOrHideTfoot();
+    showOrHidePagination();
     $("#btn-clear").trigger('click');
 
 });
@@ -91,6 +91,7 @@ tbody.on('click',  '.trash', (eventData) => {
         $(eventData.target).parents("tr").fadeOut(500, function () {
             $(this).remove();
             showOrHideTfoot();
+            showOrHidePagination();
             $('#btn-clear').trigger('click');
         });
     }
@@ -130,10 +131,14 @@ function showOrHideTfoot() {
     ($('#tbl-customers tbody tr').length > 0) ? tfoot.hide() : tfoot.show();
 }
 
-function calculatePageSize(): number{
-    const tFoot = $("#tbl-customers tfoot");
-    tFoot.hide();
+function showOrHidePagination(){
+    const nav = $("nav");
+    ($("#tbl-customers tbody tr").length > pageSize)? nav.removeClass("d-none"): nav.addClass("d-none");
+}
 
+function calculatePageSize(): number{
+    const tbl = $("#tbl-customers");
+    const tFoot = $("#tbl-customers tfoot");
     const rowHtml = `
         <tr>
             <td>C001</td>
@@ -142,13 +147,17 @@ function calculatePageSize(): number{
             <td><div class="trash"></div></td>
         </tr>
     `;
+    const nav = $('nav');
+    nav.removeClass('d-none');
 
-    const tbl = $("#tbl-customers");
+    const top = $(window).height()! - ($('footer').height()! + nav.outerHeight(true)!);
+
+    nav.addClass('d-none');
+    tFoot.hide();
 
     while (true) {
         tbl.find('tbody').append(rowHtml);
         const bottom = tbl.outerHeight(true)! + tbl.offset()!.top;
-        const top = $(window).height()! - ($('footer').height()! + 47);
 
         if (bottom >= top){
             const pageSize = tbl.find("tbody tr").length - 1;

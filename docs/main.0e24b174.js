@@ -11228,7 +11228,6 @@ Object.defineProperty(exports, "__esModule", {
 var jquery_1 = __importDefault(require("jquery"));
 
 var pageSize = calculatePageSize();
-console.log(pageSize);
 (0, jquery_1.default)('#txt-id').trigger('focus');
 /* Add or update a row */
 
@@ -11275,6 +11274,7 @@ console.log(pageSize);
   var rowHtml = "\n        <tr>\n            <td>" + id + "</td>\n            <td>" + name + "</td>\n            <td>" + address + "</td>\n            <td><div class=\"trash\"></div></td>\n        </tr>\n    ";
   (0, jquery_1.default)('#tbl-customers tbody').append(rowHtml);
   showOrHideTfoot();
+  showOrHidePagination();
   (0, jquery_1.default)("#btn-clear").trigger('click');
 });
 var tbody = (0, jquery_1.default)("#tbl-customers tbody");
@@ -11297,6 +11297,7 @@ tbody.on('click', '.trash', function (eventData) {
     (0, jquery_1.default)(eventData.target).parents("tr").fadeOut(500, function () {
       (0, jquery_1.default)(this).remove();
       showOrHideTfoot();
+      showOrHidePagination();
       (0, jquery_1.default)('#btn-clear').trigger('click');
     });
   }
@@ -11335,16 +11336,24 @@ function showOrHideTfoot() {
   (0, jquery_1.default)('#tbl-customers tbody tr').length > 0 ? tfoot.hide() : tfoot.show();
 }
 
+function showOrHidePagination() {
+  var nav = (0, jquery_1.default)("nav");
+  (0, jquery_1.default)("#tbl-customers tbody tr").length > pageSize ? nav.removeClass("d-none") : nav.addClass("d-none");
+}
+
 function calculatePageSize() {
-  var tFoot = (0, jquery_1.default)("#tbl-customers tfoot");
-  tFoot.hide();
-  var rowHtml = "\n        <tr>\n            <td>C001</td>\n            <td>Manoj</td>\n            <td>Dehiwala</td>\n            <td><div class=\"trash\"></div></td>\n        </tr>\n    ";
   var tbl = (0, jquery_1.default)("#tbl-customers");
+  var tFoot = (0, jquery_1.default)("#tbl-customers tfoot");
+  var rowHtml = "\n        <tr>\n            <td>C001</td>\n            <td>Manoj</td>\n            <td>Dehiwala</td>\n            <td><div class=\"trash\"></div></td>\n        </tr>\n    ";
+  var nav = (0, jquery_1.default)('nav');
+  nav.removeClass('d-none');
+  var top = (0, jquery_1.default)(window).height() - ((0, jquery_1.default)('footer').height() + nav.outerHeight(true));
+  nav.addClass('d-none');
+  tFoot.hide();
 
   while (true) {
     tbl.find('tbody').append(rowHtml);
     var bottom = tbl.outerHeight(true) + tbl.offset().top;
-    var top = (0, jquery_1.default)(window).height() - ((0, jquery_1.default)('footer').height() + 47);
 
     if (bottom >= top) {
       var pageSize_1 = tbl.find("tbody tr").length - 1;
