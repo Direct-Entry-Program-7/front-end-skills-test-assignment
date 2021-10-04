@@ -41,5 +41,10 @@ $('#btn-save').on('click', ()=> {
     `;
 
     $('#tbl-customers tbody').append(rowHtml);
+    showOrHideTfoot();
 
 });
+
+function showOrHideTfoot(){
+    ($('#tbl-customers tbody tr').length > 0)? $('#tbl-customers tfoot').hide(): $('#tbl-customers tfoot').show();
+}
