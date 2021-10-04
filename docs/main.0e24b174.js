@@ -11275,6 +11275,7 @@ var pageSize = calculatePageSize();
   (0, jquery_1.default)('#tbl-customers tbody').append(rowHtml);
   showOrHideTfoot();
   showOrHidePagination();
+  initPagination();
   (0, jquery_1.default)("#btn-clear").trigger('click');
 });
 var tbody = (0, jquery_1.default)("#tbl-customers tbody");
@@ -11362,6 +11363,19 @@ function calculatePageSize() {
       return pageSize_1;
     }
   }
+}
+
+function initPagination() {
+  var totalRows = (0, jquery_1.default)("#tbl-customers tbody tr").length;
+  var pages = Math.ceil(totalRows / pageSize);
+  var paginationHtml = "\n                        <li class=\"page-item\">\n                            <a class=\"page-link\" href=\"#\">\n                                <i class=\"fas fa-backward\"></i>\n                            </a>\n                        </li>";
+
+  for (var i = 0; i < pages; i++) {
+    paginationHtml += "<li class=\"page-item\"><a class=\"page-link\" href=\"#\">" + (i + 1) + "</a></li>";
+  }
+
+  paginationHtml += "\n                        <li class=\"page-item\">\n                            <a class=\"page-link\" href=\"#\">\n                                <i class=\"fas fa-forward\"></i>\n                            </a>\n                        </li>\n    ";
+  (0, jquery_1.default)(".pagination").html(paginationHtml);
 }
 },{"jquery":"node_modules/jquery/dist/jquery.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];

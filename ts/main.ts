@@ -64,6 +64,7 @@ $('#btn-save').on('click', (eventData) => {
     $('#tbl-customers tbody').append(rowHtml);
     showOrHideTfoot();
     showOrHidePagination();
+    initPagination();
     $("#btn-clear").trigger('click');
 
 });
@@ -71,7 +72,7 @@ $('#btn-save').on('click', (eventData) => {
 const tbody = $("#tbl-customers tbody");
 
 /* Table row selection event listener */
-tbody.on('click', 'tr',  function () {
+tbody.on('click', 'tr', function () {
 
     const id = $(this).find("td:first-child").text();
     const name = $(this).find("td:nth-child(2)").text();
@@ -86,7 +87,7 @@ tbody.on('click', 'tr',  function () {
 });
 
 /* Table row deletion event listener */
-tbody.on('click',  '.trash', (eventData) => {
+tbody.on('click', '.trash', (eventData) => {
     if (confirm('Are you sure to delete?')) {
         $(eventData.target).parents("tr").fadeOut(500, function () {
             $(this).remove();
@@ -98,13 +99,13 @@ tbody.on('click',  '.trash', (eventData) => {
 });
 
 /* Reset button event listener */
-$('#btn-clear').on('click', ()=>{
-   $("#tbl-customers tbody tr.selected").removeClass('selected');
-   $("#txt-id").removeAttr('disabled').trigger('focus');
+$('#btn-clear').on('click', () => {
+    $("#tbl-customers tbody tr.selected").removeClass('selected');
+    $("#txt-id").removeAttr('disabled').trigger('focus');
 });
 
 /* Utility functions */
-function existCustomer(id: string): boolean{
+function existCustomer(id: string): boolean {
     // let result: boolean = false;
     //
     // $("#tbl-customers tbody tr td:first-child").each((index, elm) => {
@@ -118,7 +119,7 @@ function existCustomer(id: string): boolean{
     const ids = $("#tbl-customers tbody tr td:first-child");
 
     for (let i = 0; i < ids.length; i++) {
-        if ($(ids[i]).text() === id){
+        if ($(ids[i]).text() === id) {
             return true;
         }
     }
@@ -131,12 +132,13 @@ function showOrHideTfoot() {
     ($('#tbl-customers tbody tr').length > 0) ? tfoot.hide() : tfoot.show();
 }
 
-function showOrHidePagination(){
+function showOrHidePagination() {
     const nav = $("nav");
-    ($("#tbl-customers tbody tr").length > pageSize)? nav.removeClass("d-none"): nav.addClass("d-none");
+
+    ($("#tbl-customers tbody tr").length > pageSize) ? nav.removeClass("d-none") : nav.addClass("d-none");
 }
 
-function calculatePageSize(): number{
+function calculatePageSize(): number {
     const tbl = $("#tbl-customers");
     const tFoot = $("#tbl-customers tfoot");
     const rowHtml = `
@@ -159,7 +161,7 @@ function calculatePageSize(): number{
         tbl.find('tbody').append(rowHtml);
         const bottom = tbl.outerHeight(true)! + tbl.offset()!.top;
 
-        if (bottom >= top){
+        if (bottom >= top) {
             const pageSize = tbl.find("tbody tr").length - 1;
 
             tbl.find("tbody tr").remove();
@@ -167,5 +169,33 @@ function calculatePageSize(): number{
             return pageSize;
         }
     }
+
+}
+
+function initPagination(): void {
+
+    const totalRows = $("#tbl-customers tbody tr").length;
+    const pages = Math.ceil(totalRows / pageSize);
+
+    let paginationHtml = `
+                        <li class="page-item">
+                            <a class="page-link" href="#">
+                                <i class="fas fa-backward"></i>
+                            </a>
+                        </li>`;
+
+    for (let i = 0; i < pages; i++) {
+        paginationHtml += `<li class="page-item"><a class="page-link" href="#">${i + 1}</a></li>`;
+    }
+
+    paginationHtml += `
+                        <li class="page-item">
+                            <a class="page-link" href="#">
+                                <i class="fas fa-forward"></i>
+                            </a>
+                        </li>
+    `;
+
+    $(".pagination").html(paginationHtml);
 
 }
