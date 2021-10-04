@@ -11229,9 +11229,12 @@ var jquery_1 = __importDefault(require("jquery"));
 
 (0, jquery_1.default)('#txt-id').trigger('focus');
 (0, jquery_1.default)('#btn-save').on('click', function () {
-  var id = (0, jquery_1.default)('#txt-id').val();
-  var name = (0, jquery_1.default)('#txt-name').val();
-  var address = (0, jquery_1.default)('#txt-address').val();
+  var txtId = (0, jquery_1.default)('#txt-id');
+  var txtName = (0, jquery_1.default)('#txt-name');
+  var txtAddress = (0, jquery_1.default)('#txt-address');
+  var id = txtId.val();
+  var name = txtName.val();
+  var address = txtAddress.val();
   var valid = true;
   (0, jquery_1.default)('#txt-id, #txt-name, #txt-address').parent().removeClass('invalid'); // if (address.trim().length < 3){
   //     $('#txt-address').parent().addClass('invalid');
@@ -11257,6 +11260,13 @@ var jquery_1 = __importDefault(require("jquery"));
   (0, jquery_1.default)('#tbl-customers tbody').append(rowHtml);
   showOrHideTfoot();
   (0, jquery_1.default)("#tbl-customers tbody tr").off('click').on('click', function () {
+    var id = (0, jquery_1.default)(this).find("td:first-child").text();
+    var name = (0, jquery_1.default)(this).find("td:nth-child(2)").text();
+    var address = (0, jquery_1.default)(this).find("td:nth-child(3)").text();
+    txtId.val(id);
+    txtId.attr('disabled', "true");
+    txtName.val(name);
+    txtAddress.val(address);
     (0, jquery_1.default)("#tbl-customers tbody tr").removeClass('selected');
     (0, jquery_1.default)(this).addClass('selected');
   });

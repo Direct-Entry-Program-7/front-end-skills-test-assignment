@@ -4,9 +4,13 @@ $('#txt-id').trigger('focus');
 
 $('#btn-save').on('click', () => {
 
-    const id = $('#txt-id').val() as string;
-    const name = $('#txt-name').val() as string;
-    const address = $('#txt-address').val() as string;
+    const txtId = $('#txt-id');
+    const txtName = $('#txt-name');
+    const txtAddress = $('#txt-address');
+
+    const id = txtId.val() as string;
+    const name = txtName.val() as string;
+    const address = txtAddress.val() as string;
     let valid = true;
 
     $('#txt-id, #txt-name, #txt-address').parent().removeClass('invalid');
@@ -44,6 +48,15 @@ $('#btn-save').on('click', () => {
     showOrHideTfoot();
 
     $("#tbl-customers tbody tr").off('click').on('click', function() {
+        const id = $(this).find("td:first-child").text();
+        const name = $(this).find("td:nth-child(2)").text();
+        const address = $(this).find("td:nth-child(3)").text();
+
+        txtId.val(id);
+        txtId.attr('disabled', "true");
+        txtName.val(name);
+        txtAddress.val(address);
+
         $("#tbl-customers tbody tr").removeClass('selected');
         $(this).addClass('selected');
     });
