@@ -1,6 +1,7 @@
 import $ from 'jquery';
 
 const pageSize = calculatePageSize();
+let pages: number = 1;
 
 $('#txt-id').trigger('focus');
 
@@ -65,6 +66,7 @@ $('#btn-save').on('click', (eventData) => {
     showOrHideTfoot();
     showOrHidePagination();
     initPagination();
+    navigateToPage(pages);
     $("#btn-clear").trigger('click');
 
 });
@@ -175,7 +177,7 @@ function calculatePageSize(): number {
 function initPagination(): void {
 
     const totalRows = $("#tbl-customers tbody tr").length;
-    const pages = Math.ceil(totalRows / pageSize);
+    pages = Math.ceil(totalRows / pageSize);
 
     let paginationHtml = `
                         <li class="page-item">
@@ -197,5 +199,26 @@ function initPagination(): void {
     `;
 
     $(".pagination").html(paginationHtml);
+
+}
+
+function navigateToPage(page: number): void{
+    $(".pagination .page-item").each((index, elm) => {
+       if (+$(elm).text() === page){
+           $(elm).addClass("active");
+           return false;
+       }
+    });
+
+    const rows = $("#tbl-customers tbody tr");
+    const start = (page - 1) * pageSize;        // [0-6][7-13]
+
+    rows.each((index, elm) => {
+        if (index >= start && index < (start + pageSize)){
+            $(elm).show();
+        }else{
+            $(elm).hide();
+        }
+    });
 
 }

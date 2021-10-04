@@ -11228,6 +11228,7 @@ Object.defineProperty(exports, "__esModule", {
 var jquery_1 = __importDefault(require("jquery"));
 
 var pageSize = calculatePageSize();
+var pages = 1;
 (0, jquery_1.default)('#txt-id').trigger('focus');
 /* Add or update a row */
 
@@ -11276,6 +11277,7 @@ var pageSize = calculatePageSize();
   showOrHideTfoot();
   showOrHidePagination();
   initPagination();
+  navigateToPage(pages);
   (0, jquery_1.default)("#btn-clear").trigger('click');
 });
 var tbody = (0, jquery_1.default)("#tbl-customers tbody");
@@ -11367,7 +11369,7 @@ function calculatePageSize() {
 
 function initPagination() {
   var totalRows = (0, jquery_1.default)("#tbl-customers tbody tr").length;
-  var pages = Math.ceil(totalRows / pageSize);
+  pages = Math.ceil(totalRows / pageSize);
   var paginationHtml = "\n                        <li class=\"page-item\">\n                            <a class=\"page-link\" href=\"#\">\n                                <i class=\"fas fa-backward\"></i>\n                            </a>\n                        </li>";
 
   for (var i = 0; i < pages; i++) {
@@ -11376,6 +11378,25 @@ function initPagination() {
 
   paginationHtml += "\n                        <li class=\"page-item\">\n                            <a class=\"page-link\" href=\"#\">\n                                <i class=\"fas fa-forward\"></i>\n                            </a>\n                        </li>\n    ";
   (0, jquery_1.default)(".pagination").html(paginationHtml);
+}
+
+function navigateToPage(page) {
+  (0, jquery_1.default)(".pagination .page-item").each(function (index, elm) {
+    if (+(0, jquery_1.default)(elm).text() === page) {
+      (0, jquery_1.default)(elm).addClass("active");
+      return false;
+    }
+  });
+  var rows = (0, jquery_1.default)("#tbl-customers tbody tr");
+  var start = (page - 1) * pageSize; // [0-6][7-13]
+
+  rows.each(function (index, elm) {
+    if (index >= start && index < start + pageSize) {
+      (0, jquery_1.default)(elm).show();
+    } else {
+      (0, jquery_1.default)(elm).hide();
+    }
+  });
 }
 },{"jquery":"node_modules/jquery/dist/jquery.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
